@@ -1,4 +1,4 @@
-# A^2I^2
+# A2
 Visualize what you learn: A well-explainable joint-learning framework based on multi-view mammograms and associated reports
 
 Our code is coming soon!
