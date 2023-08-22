@@ -16,7 +16,7 @@ We evaluate the performance of our framework on various medical imaging datasets
 ![A<sup>2</sup>I<sup>2</sup>](https://github.com/yawwG/Visualize-what-you-learn/blob/main/figures/visualization.png)
 
 [comment]: <> (* As illustrated in our workflow, we introduce A<sup>2</sup>I<sup>2</sup>, including abnormality-awareness &#40;Module-A<sup>2</sup>&#41; &#40;Fig.&#40;b&#41;&#41; consists of a visualization module and Module-I<sup>2</sup> &#40;Fig.&#40;c&#41;&#41; aims intra-mammogram &#40;multi-view&#41; and inter-modal learning.)
-![A<sup>2</sup>I<sup>2</sup>](https://github.com/yawwG/Visualize-what-you-learn/blob/main/figures/word_based_attention.png )
+![A<sup>2</sup>I<sup>2</sup>](https://github.com/yawwG/Visualize-what-you-learn/blob/main/figures/word_base_attention.png )
 
 
 ## Usage
