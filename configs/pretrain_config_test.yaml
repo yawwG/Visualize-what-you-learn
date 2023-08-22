@@ -1,0 +1,78 @@
+experiment_name: 'VSWL_pretrain'
+phase: 'pretrain'
+ablation: '1'
+lightning:
+    trainer:
+       gpus: '1'
+       max_epochs: 100
+       distributed_backend: 'dp'
+       gradient_clip_val: 0.25
+       lr: 0.00005
+#       lr: 0.0001
+       precision: 16
+    checkpoint_callback:
+        monitor: 'val_loss'
+        dirpath: ''
+        save_last: true
+        mode: min
+        save_top_k: 100
+    early_stopping_callback:
+        monitor: 'val_loss'
+        min_delta: 0.00
+        patience: 100
+        verbose: False
+        mode: 'min'
+    logger:
+        logger_type: 'WandbLogger'
+        save_dir: ''
+        project: 'VSWL_v2'
+
+model:
+    VSWL:
+        local_loss_weight: 1.0
+        global_loss_weight: 1.0
+        temp1: 4.0
+        temp2: 5.0
+        temp3: 10.0
+    vision:
+#        model_name: 'VSWL_resnet50'
+        model_name: 'resnet_50'
+#        freeze_cnn: false
+        freeze_cnn: true #test
+        pretrained: true
+    text:
+        bert_type: "emilyalsentzer/Bio_ClinicalBERT"
+        last_n_layers: 4
+        aggregate_method: 'sum'
+        norm: false
+        embedding_dim: 768
+        freeze_bert: true #test
+        agg_tokens: true
+data:
+    dataset: INB
+    text:
+        word_num: 200
+        captions_per_image: 200
+        full_report: false
+    image:
+        imsize: 512
+
+transforms:
+    norm: 'half'
+    random_crop:
+        crop_size: 1024
+
+train:
+    update_interval: 100
+    batch_size: 3
+    num_workers: 8
+    nvis: 8
+    rand_vis: false
+    optimizer:
+        name: 'Adam'
+        weight_decay: 1e-6
+    scheduler:
+        name: 'plateau'
+        monitor: 'val_loss'
+        inerval: 'epoch'
+        frequency: 1

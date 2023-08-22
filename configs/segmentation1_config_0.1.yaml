@@ -1,0 +1,60 @@
+experiment_name: 'INB_seg'
+phase: 'segmentation'
+dataset: 'inb'#'inb','cbis','ddsm'
+lightning:
+    trainer:
+       gpus: '1'
+       max_epochs: 200
+       distributed_backend: 'dp'
+       gradient_clip_val: 0.25
+       lr: 1e-4
+       precision: 16
+    checkpoint_callback:
+        monitor: 'val_loss'
+        dirpath: ''
+        save_last: true
+        mode: min
+        save_top_k: 100
+    early_stopping_callback:
+        monitor: 'val_loss'
+        min_delta: 0.00
+        patience: 5000
+        verbose: False
+        mode: 'min'
+    logger:
+        logger_type: 'WandbLogger'
+        save_dir: ''
+        project: 'VSWL'
+
+model:
+#    vision:
+#        model_name: 'VSWL_resnet50'
+#        freeze_cnn: false
+#        pretrained: true
+#        num_targets: 1
+    vision:
+        model_name: 'resnet_50'
+        freeze_cnn: false
+        pretrained: false
+        num_targets: 1
+data:
+    dataset: INB
+    image:
+        imsize: 512
+
+transforms:
+    norm: 'half'
+
+train:
+    batch_size: 3
+    num_workers: 16
+    loss_fn:
+        type: BCE
+    optimizer:
+        name: 'Adam'
+        weight_decay: 1e-6
+    scheduler:
+        name: 'plateau'
+        monitor: 'val_loss'
+        interval: 'epoch'
+        frequency: 3
